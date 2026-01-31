@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "UMInteractionComponent.h"
 #include "UnmaskCharacter.generated.h"
 
 class UInputComponent;
@@ -48,6 +49,9 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* MouseLookAction;
+
+	UPROPERTY(VisibleAnywhere)
+	UUMInteractionComponent* InteractionComp;
 	
 public:
 	AUnmaskCharacter();
@@ -76,6 +80,7 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
 
+	void PrimaryInteract();
 protected:
 
 	/** Set up input action bindings */
