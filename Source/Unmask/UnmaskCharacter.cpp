@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Unmask.h"
+#include "UMInteractionComponent.h"
 
 AUnmaskCharacter::AUnmaskCharacter()
 {
@@ -33,6 +34,8 @@ AUnmaskCharacter::AUnmaskCharacter()
 	FirstPersonCameraComponent->FirstPersonFieldOfView = 70.0f;
 	FirstPersonCameraComponent->FirstPersonScale = 0.6f;
 
+	InteractionComp = CreateDefaultSubobject<UUMInteractionComponent>("InteractionComponent");
+
 	// configure the character comps
 	GetMesh()->SetOwnerNoSee(true);
 	GetMesh()->FirstPersonPrimitiveType = EFirstPersonPrimitiveType::WorldSpaceRepresentation;
@@ -46,6 +49,7 @@ AUnmaskCharacter::AUnmaskCharacter()
 
 void AUnmaskCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {	
+	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &AUnmaskCharacter::PrimaryInteract);
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
@@ -117,4 +121,13 @@ void AUnmaskCharacter::DoJumpEnd()
 {
 	// pass StopJumping to the character
 	StopJumping();
+}
+
+void AUnmaskCharacter::PrimaryInteract()
+{
+	if (InteractionComp)
+	{
+		InteractionComp->PrimaryInteract();
+	}
+
 }
